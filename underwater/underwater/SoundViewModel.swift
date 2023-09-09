@@ -18,6 +18,7 @@ class SoundViewModel: ObservableObject {
     @Published var phase: Double = 0.0 // Phase Control
     @Published var bandwidth: Double = 20.0 // Bandwidth Control
     @Published var equalization: Double = 1.0 // Equalization Control
+    @Published var isPlaying: Bool = false
     private var cancellables = Set<AnyCancellable>()
     
     var soundController: SoundEngine?
@@ -52,14 +53,13 @@ class SoundViewModel: ObservableObject {
         soundController?.equalization = equalization
     }
 
-    func startPlaying() {
-            updateSoundParameters()
+    func togglePlaying() {
+        if isPlaying {
+            soundController?.stopPlaying()
+        } else {
             soundController?.startPlaying()
         }
-        
-        // Function to stop playing sound
-    func stopPlaying() {
-        soundController?.stopPlaying()
+        isPlaying.toggle()
     }
     // Add any other methods that deal with updating sound parameters or controlling playback
 }

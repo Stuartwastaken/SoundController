@@ -15,58 +15,54 @@ struct ContentView: View {
             VStack {
                 // Amplitude Control
                 HStack {
-                    Text("Amplitude:")
+                    Text("Amplitude: \(viewModel.amplitude, specifier: "%.3f")")
                     Slider(value: $viewModel.amplitude)
                 }
                 
                 // Frequency Control
                 HStack {
-                    Text("Frequency:")
+                    Text("Frequency: \(Int(viewModel.frequency)) Hz")
                     Slider(value: $viewModel.frequency)
                 }
                 
                 // Modulation
-                Picker("Modulation Type", selection: $viewModel.modulationType) {
+                Picker("Modulation Type (\(viewModel.modulationType))", selection: $viewModel.modulationType) {
                     Text("AM").tag("AM")
                     Text("FM").tag("FM")
                 }
                 
                 // Pulse Duration & Interval
                 HStack {
-                    Text("Pulse Duration:")
+                    Text("Pulse Duration: \(viewModel.pulseDuration, specifier: "%.3f") s")
                     Slider(value: $viewModel.pulseDuration)
                 }
                 
                 HStack {
-                    Text("Pulse Interval:")
+                    Text("Pulse Interval: \(viewModel.pulseInterval, specifier: "%.3f") s")
                     Slider(value: $viewModel.pulseInterval)
                 }
                 
                 // Phase Control
                 HStack {
-                    Text("Phase:")
+                    Text("Phase: \(viewModel.phase, specifier: "%.3f") radians")
                     Slider(value: $viewModel.phase)
                 }
                 
                 // Bandwidth Control
                 HStack {
-                    Text("Bandwidth:")
+                    Text("Bandwidth: \(Int(viewModel.bandwidth)) Hz")
                     Slider(value: $viewModel.bandwidth)
                 }
                 
                 // Equalization Control
                 HStack {
-                    Text("Equalization:")
+                    Text("Equalization: \(viewModel.equalization, specifier: "%.3f")")
                     Slider(value: $viewModel.equalization)
                 }
                 
                 // Start/Stop button
-                Button("Start") {
-                    viewModel.startPlaying()
-                }
-                
-                Button("Stop") {
-                    viewModel.stopPlaying()
+                Button(viewModel.isPlaying ? "Stop" : "Start") {
+                    viewModel.togglePlaying()
                 }
                 
             }.padding()
@@ -79,5 +75,6 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
 
 
