@@ -5,14 +5,16 @@ class SoundEngine {
     var audioEngine: AVAudioEngine!
     var sourceNode: AVAudioSourceNode!
     var isPlaying = false
-    var amplitude: Double = 0.5
-    var frequency: Double = 440.0 // Frequency in Hz
+    var amplitude: Double = 1.0
+    var frequency: Double = 2200.0 // Frequency in Hz
     var modulationType: String = "AM" // Placeholder for modulation type
-    var pulseDuration: Double = 1.0 // Placeholder for pulse duration
+    var pulseDuration: Double = 0.05 // Placeholder for pulse duration
     var pulseInterval: Double = 2.0 // Placeholder for pulse interval
     var phase: Double = 0.0 // Placeholder for phase control
     var bandwidth: Double = 20.0 // Placeholder for bandwidth control
     var equalization: Double = 1.0 // Placeholder for equalization control
+    var time: Double = 0
+    var chirp_rate: Double = 440.0
     
     func updateParameters(from viewModel: SoundViewModel) {
             self.amplitude = viewModel.amplitude
@@ -27,8 +29,8 @@ class SoundEngine {
     
     func generateWave(frame: Int, frameCount: AVAudioFrameCount) -> Int16 {
             // Integrate amplitude, phase, and other variables here to generate the wave
-            let value = amplitude * sin(2.0 * .pi * frequency * Double(frame) / 44100.0 + phase)
-            let scaledValue = Int16(value * 32767.0)
+            let value = amplitude * sin(2.0 * .pi * ((frequency * time) + 0.5 * chirp_rate * time * time))
+            let scaledValue = Int16(value)
             return scaledValue
         }
     
@@ -51,6 +53,7 @@ class SoundEngine {
     
     @objc func sliderChanged(_ sender: UISlider) {
         frequency = Double(sender.value)
+        pulseDuration = Double(sender.value)
     }
     
     func startPlaying() {
