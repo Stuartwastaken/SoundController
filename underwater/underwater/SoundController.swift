@@ -43,10 +43,11 @@ class SoundViewController: UIViewController {
     }
     
     // Generate the LoRa chirp
-        func generateChirp(frame: Int, frameCount: AVAudioFrameCount) -> Int16 {
-            let fs: Double = 1000  // Sampling frequency (Hz), you can use self.frequency or any other dynamic value
-            let t = Double(frame) / fs
-            let chirp = cos(2 * .pi * (frequency * t + 0.5 * chirpRate * pow(t, 2)))  // Adjust frequency and chirpRate based on your parameters
+    func generateChirp(frame: Int, frameCount: AVAudioFrameCount, spreadingFactor: Int) -> Int16 {
+        let fs: Double = 1000
+        let symbolTime: Double = pow(2, Double(spreadingFactor)) / fs
+        let t = Double(frame) * symbolTime / Double(frameCount)
+            let chirp = cos(2 * .pi * (frequency * t + 0.5 * chirpRate * pow(t, 2)))
             return Int16(chirp * 32767.0)
         }
     
@@ -56,7 +57,7 @@ class SoundViewController: UIViewController {
         sourceNode = AVAudioSourceNode { _, _, frameCount, audioBufferList -> OSStatus in
             let ablPointer = UnsafeMutableAudioBufferListPointer(audioBufferList)
             for frame in 0..<Int(frameCount) {
-                let chirp = self.generateChirp(frame: frame, frameCount: frameCount)
+                let chirp = self.generateChirp(frame: frame, frameCount: frameCount, spreadingFactor: self.spreadingFactor)
                 for buffer in ablPointer {
                     let buf: UnsafeMutableBufferPointer<Int16> = UnsafeMutableBufferPointer(buffer)
                     buf[frame] = chirp
