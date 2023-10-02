@@ -25,7 +25,7 @@ struct SoundController: UIViewControllerRepresentable {
         uiViewController.chirpRate = chirpRate
         uiViewController.time = time
         uiViewController.spreadingFactor = spreadingFactor
-        uiViewController.onFrequencyTimeChange = self.onFrequencyTimeChange // Keep it in sync
+        uiViewController.onFrequencyTimeChange = self.onFrequencyTimeChange
     }
 
 }
@@ -49,7 +49,7 @@ class SoundViewController: UIViewController {
             // Initialize the Timer to modulate frequency and update time
         timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
                     let currentTime = Date().timeIntervalSince1970.truncatingRemainder(dividingBy: 5)
-                    self.frequency = 440 + (1760 * currentTime / 5)
+                    self.frequency = (2200 * currentTime / 5)
                     self.time = Float(currentTime)
                     self.onFrequencyTimeChange?(self.frequency, self.time)
                 }

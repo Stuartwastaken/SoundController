@@ -13,7 +13,7 @@ struct ContentView: View {
             Text("Chirp Rate: \(chirpRate, specifier: "%.1f") Hz/s")
             Slider(value: $chirpRate, in: 0...100)
             
-            Text("Time: \(time, specifier: "%.2f") s (0 - 5)")
+            Text("Time interval: \(time, specifier: "%.2f") s (0 - 5)")
             
             HStack {
                 Text("Spreading Factor: \(spreadingFactor)")
