@@ -1,80 +1,48 @@
-//
-//  ContentView.swift
-//  underwater
-//
-//  Created by Stuart Ray on 9/9/23.
-//
 import SwiftUI
 
 struct ContentView: View {
-    // ViewModel instance
-    @ObservedObject var viewModel = SoundViewModel()
-    
+    @State var frequency: Double = 440.0
+    @State var chirpRate: Double = 50.0
+    @State var time: Float = 0.0 // Initialize to 0
+    @State var spreadingFactor: Int = 12
+
     var body: some View {
-        ScrollView {
-            VStack {
-                // Amplitude Control
-                HStack {
-                    Text("Amplitude: \(viewModel.amplitude, specifier: "%.3f")")
-                    Slider(value: $viewModel.amplitude)
+        VStack {
+            Text("Frequency: \(frequency, specifier: "%.1f") Hz")
+            
+            Text("Chirp Rate: \(chirpRate, specifier: "%.1f") Hz/s")
+            Slider(value: $chirpRate, in: 0...100)
+            
+            Text("Time interval: \(time, specifier: "%.2f") s (0 - 5)")
+            
+            HStack {
+                Text("Spreading Factor: \(spreadingFactor)")
+                Button("−") {
+                    if spreadingFactor > 1 {
+                        spreadingFactor -= 1
+                    }
                 }
+                .padding(.leading, 20)
                 
-                // Frequency Control
-                HStack {
-                    Text("Frequency: \(Int(viewModel.frequency)) Hz")
-                    Slider(value: $viewModel.frequency)
+                Button("+") {
+                    if spreadingFactor < 12 {
+                        spreadingFactor += 1
+                    }
                 }
-                
-                // Modulation
-                Picker("Modulation Type (\(viewModel.modulationType))", selection: $viewModel.modulationType) {
-                    Text("AM").tag("AM")
-                    Text("FM").tag("FM")
-                }
-                
-                // Pulse Duration & Interval
-                HStack {
-                    Text("Pulse Duration: \(viewModel.pulseDuration, specifier: "%.3f") s")
-                    Slider(value: $viewModel.pulseDuration)
-                }
-                
-                HStack {
-                    Text("Pulse Interval: \(viewModel.pulseInterval, specifier: "%.3f") s")
-                    Slider(value: $viewModel.pulseInterval)
-                }
-                
-                // Phase Control
-                HStack {
-                    Text("Phase: \(viewModel.phase, specifier: "%.3f") radians")
-                    Slider(value: $viewModel.phase)
-                }
-                
-                // Bandwidth Control
-                HStack {
-                    Text("Bandwidth: \(Int(viewModel.bandwidth)) Hz")
-                    Slider(value: $viewModel.bandwidth)
-                }
-                
-                // Equalization Control
-                HStack {
-                    Text("Equalization: \(viewModel.equalization, specifier: "%.3f")")
-                    Slider(value: $viewModel.equalization)
-                }
-                
-                // Start/Stop button
-                Button(viewModel.isPlaying ? "Stop" : "Start") {
-                    viewModel.togglePlaying()
-                }
-                
-            }.padding()
+                .padding(.leading, 10)
+            }
+            SoundController(
+                            frequency: $frequency,
+                            chirpRate: $chirpRate,
+                            time: $time,
+                            spreadingFactor: $spreadingFactor,
+                            onFrequencyTimeChange: { frequency, time in
+                                self.frequency = frequency
+                                self.time = time
+                            }
+                        )
         }
+        .padding()
     }
 }
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
-
-
 
