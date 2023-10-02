@@ -8,6 +8,7 @@ struct SoundController: UIViewControllerRepresentable {
     @Binding var time: Float
     @Binding var spreadingFactor: Int
     
+    
     func makeUIViewController(context: Context) -> SoundViewController {
         let controller = SoundViewController()
         controller.frequency = frequency
@@ -34,13 +35,19 @@ class SoundViewController: UIViewController {
     var audioEngine: AVAudioEngine!
     var sourceNode: AVAudioSourceNode!
     var isPlaying = false
+    var timer: Timer?
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // Initialize the audio engine and other audio properties
-        setup()
-    }
+            super.viewDidLoad()
+            setup()
+
+            // Initialize the Timer to modulate frequency and update time
+            timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+                let currentTime = Date().timeIntervalSince1970.truncatingRemainder(dividingBy: 5)
+                self.frequency = 440 + (1760 * currentTime / 5)
+                self.time = Float(currentTime)
+            }
+        }
     
     // Generate the LoRa chirp
     func generateChirp(frame: Int, frameCount: AVAudioFrameCount, spreadingFactor: Int) -> Int16 {
