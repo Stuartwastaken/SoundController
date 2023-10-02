@@ -7,6 +7,12 @@ struct SoundController: UIViewControllerRepresentable {
     @Binding var chirpRate: Double
     @Binding var time: Float
     @Binding var spreadingFactor: Int
+    var onUpdateWaveform: (([Int16]) -> Void)?
+
+    func setWaveformUpdater(_ updater: @escaping ([Int16]) -> Void) {
+        self.onUpdateWaveform = updater
+    }
+
     
     func makeUIViewController(context: Context) -> SoundViewController {
         let controller = SoundViewController()
@@ -54,6 +60,7 @@ class SoundViewController: UIViewController {
         audioEngine = AVAudioEngine()
         
         sourceNode = AVAudioSourceNode { _, _, frameCount, audioBufferList -> OSStatus in
+            var waveformChunk: [Int16] = []
             let ablPointer = UnsafeMutableAudioBufferListPointer(audioBufferList)
             for frame in 0..<Int(frameCount) {
                 let chirp = self.generateChirp(frame: frame, frameCount: frameCount)
@@ -62,6 +69,7 @@ class SoundViewController: UIViewController {
                     buf[frame] = chirp
                 }
             }
+            self.onUpdateWaveform?(waveformChunk)
             return noErr
         }
         

@@ -12,7 +12,7 @@
 		17931E7E2AACCA3300D346BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17931E7D2AACCA3300D346BD /* Assets.xcassets */; };
 		17931E812AACCA3300D346BD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17931E802AACCA3300D346BD /* Preview Assets.xcassets */; };
 		17931E882AACCC6D00D346BD /* SoundController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17931E872AACCC6D00D346BD /* SoundController.swift */; };
-		17931E8A2AACD02600D346BD /* SoundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17931E892AACD02600D346BD /* SoundViewModel.swift */; };
+		17931E8A2AACD02600D346BD /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17931E892AACD02600D346BD /* WaveformView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,7 +22,7 @@
 		17931E7D2AACCA3300D346BD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		17931E802AACCA3300D346BD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		17931E872AACCC6D00D346BD /* SoundController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundController.swift; sourceTree = "<group>"; };
-		17931E892AACD02600D346BD /* SoundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundViewModel.swift; sourceTree = "<group>"; };
+		17931E892AACD02600D346BD /* WaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +58,7 @@
 				17931E872AACCC6D00D346BD /* SoundController.swift */,
 				17931E792AACCA3200D346BD /* underwaterApp.swift */,
 				17931E7B2AACCA3200D346BD /* ContentView.swift */,
-				17931E892AACD02600D346BD /* SoundViewModel.swift */,
+				17931E892AACD02600D346BD /* WaveformView.swift */,
 				17931E7D2AACCA3300D346BD /* Assets.xcassets */,
 				17931E7F2AACCA3300D346BD /* Preview Content */,
 			);
@@ -143,7 +143,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				17931E8A2AACD02600D346BD /* SoundViewModel.swift in Sources */,
+				17931E8A2AACD02600D346BD /* WaveformView.swift in Sources */,
 				17931E7C2AACCA3200D346BD /* ContentView.swift in Sources */,
 				17931E882AACCC6D00D346BD /* SoundController.swift in Sources */,
 				17931E7A2AACCA3200D346BD /* underwaterApp.swift in Sources */,
