@@ -31,7 +31,16 @@ struct ContentView: View {
                 }
                 .padding(.leading, 10)
             }
-            SoundController(frequency: $frequency, chirpRate: $chirpRate, time: $time, spreadingFactor: $spreadingFactor)
+            SoundController(
+                            frequency: $frequency,
+                            chirpRate: $chirpRate,
+                            time: $time,
+                            spreadingFactor: $spreadingFactor,
+                            onFrequencyTimeChange: { frequency, time in
+                                self.frequency = frequency
+                                self.time = time
+                            }
+                        )
         }
         .padding()
     }

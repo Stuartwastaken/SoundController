@@ -4,9 +4,10 @@ import UIKit
 
 struct SoundController: UIViewControllerRepresentable {
     @Binding var frequency: Double
-    @Binding var chirpRate: Double
-    @Binding var time: Float
-    @Binding var spreadingFactor: Int
+        @Binding var chirpRate: Double
+        @Binding var time: Float
+        @Binding var spreadingFactor: Int
+        var onFrequencyTimeChange: ((Double, Float) -> Void)?
     
     
     func makeUIViewController(context: Context) -> SoundViewController {
@@ -15,6 +16,7 @@ struct SoundController: UIViewControllerRepresentable {
         controller.chirpRate = chirpRate
         controller.time = time
         controller.spreadingFactor = spreadingFactor
+        controller.onFrequencyTimeChange = self.onFrequencyTimeChange
         return controller
     }
     
@@ -23,7 +25,9 @@ struct SoundController: UIViewControllerRepresentable {
         uiViewController.chirpRate = chirpRate
         uiViewController.time = time
         uiViewController.spreadingFactor = spreadingFactor
+        uiViewController.onFrequencyTimeChange = self.onFrequencyTimeChange // Keep it in sync
     }
+
 }
 
 class SoundViewController: UIViewController {
@@ -31,6 +35,7 @@ class SoundViewController: UIViewController {
     var chirpRate: Double = 50.0
     var time: Float = 1.0
     var spreadingFactor: Int = 12
+    var onFrequencyTimeChange: ((Double, Float) -> Void)?
     
     var audioEngine: AVAudioEngine!
     var sourceNode: AVAudioSourceNode!
@@ -42,11 +47,12 @@ class SoundViewController: UIViewController {
             setup()
 
             // Initialize the Timer to modulate frequency and update time
-            timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
-                let currentTime = Date().timeIntervalSince1970.truncatingRemainder(dividingBy: 5)
-                self.frequency = 440 + (1760 * currentTime / 5)
-                self.time = Float(currentTime)
-            }
+        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+                    let currentTime = Date().timeIntervalSince1970.truncatingRemainder(dividingBy: 5)
+                    self.frequency = 440 + (1760 * currentTime / 5)
+                    self.time = Float(currentTime)
+                    self.onFrequencyTimeChange?(self.frequency, self.time)
+                }
         }
     
     // Generate the LoRa chirp
