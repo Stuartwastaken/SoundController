@@ -20,6 +20,7 @@ class SoundEngine {
     var sourceNode: AVAudioSourceNode!
     var isPlaying = false
     var frequency: Double = 440.0 // Frequency in Hz
+    var frequencyLabel: UILabel!
     
     func generateWave(frequency: Double, frame: Int, frameCount: AVAudioFrameCount) -> Int16 {
         let value = sin(2.0 * .pi * frequency * Double(frame) / 44100.0)
@@ -38,6 +39,10 @@ class SoundEngine {
         slider.value = 440
         slider.addTarget(self, action: #selector(sliderChanged(_:)), for: .valueChanged)
         view.addSubview(slider)
+        
+        frequencyLabel = UILabel(frame: CGRect(x: 20, y: 50, width: 280, height: 20))
+        frequencyLabel.text = "Frequency: \(frequency) Hz"
+        view.addSubview(frequencyLabel)
         
         // Button
         let button = UIButton(frame: CGRect(x: 120, y: 200, width: 80, height: 40))
@@ -62,6 +67,7 @@ class SoundEngine {
     
     @objc func sliderChanged(_ sender: UISlider) {
         frequency = Double(sender.value)
+        frequencyLabel.text = "Frequency: \(frequency) Hz"
     }
     
     @objc func togglePlay(_ sender: UIButton) {
